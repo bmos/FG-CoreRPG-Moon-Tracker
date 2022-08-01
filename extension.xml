@@ -7,7 +7,7 @@
 		<description>An extension for tracking the phases of the moons for your campaign world.</description>
 	</properties>
 	
-	<announcement text="https://github.com/FG-Unofficial-Developers-Guild/FG-CoreRPG-Moon-Tracker\nMoon Tracker v2.4-hotfix.1\r--created by DMFirmy and updated by Andraax and bmos." font="emotefont" icon="nightsky-moontracker" />
+	<announcement text="https://github.com/FG-Unofficial-Developers-Guild/FG-CoreRPG-Moon-Tracker\nMoon Tracker v2.4-hotfix.2\r--created by DMFirmy and updated by Andraax and bmos." font="emotefont" icon="nightsky-moontracker" />
 
 	<base>
 		<!-- Graphics -->
