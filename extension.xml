@@ -5,7 +5,6 @@
 		<version>2.2</version>
 		<author>Andraax</author>
 		<description>An extension for tracking the phases of the moons for your campaign world.</description>
-		<ruleset>Any</ruleset>
 	</properties>
 	
 	<announcement text="An extension for tracking the phases of the moons for your campaign world.\nMaintained by Andraax and bmos - originally written by DMFirmy." font="emotefont" icon="moonphase3" />
