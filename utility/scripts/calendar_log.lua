@@ -1,6 +1,10 @@
 --
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
+if ColorManager and not ColorManager.COLOR_CALENDAR_HOLIDAY then
+	ColorManager.COLOR_CALENDAR_HOLIDAY = '5A1E33'; -- Replaceable Color: Calendar Background
+end
+
 local aEvents = {};
 local nSelMonth = 0;
 local nSelDay = 0;
@@ -163,9 +167,9 @@ function updateDisplay()
 		if nMonth == nSelMonth then bLogMonth = true; end
 
 		if bCampaignMonth then
-			v.label_period.setColor('5A1E33');
+			v.label_period.setColor(ColorManager.COLOR_CALENDAR_HOLIDAY);
 		else
-			v.label_period.setColor('000000');
+			v.label_period.setColor(ColorManager.COLOR_PRIMARY_FOREGROUND);
 		end
 
 		for _, y in pairs(v.list_days.getWindows()) do
