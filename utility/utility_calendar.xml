@@ -37,15 +37,15 @@
 				<columns width="155" fillwidth="true" />
 				<skipempty />
 				<script>
-						function addEntry(oMoon, nEpoch)
-								local oWindow = createWindow();
-								local phase = MoonManager.calculatePhase(oMoon, nEpoch);
-								local name = MoonManager.getPhaseName(phase);
-								oWindow["name"].setValue(name);
-								oWindow["moonname"].setValue(oMoon.getChild("name").getValue());
-								oWindow["phaseicon"].setIcon("moonphase"..tostring(phase));
-								return oWindow;
-						end
+					function addEntry(oMoon, nEpoch)
+						local oWindow = createWindow();
+						local phase = MoonManager.calculatePhase(oMoon, nEpoch);
+						local name = MoonManager.getPhaseName(phase);
+						oWindow["name"].setValue(name);
+						oWindow["moonname"].setValue(oMoon.getChild("name").getValue());
+						oWindow["phaseicon"].setIcon("moonphase" .. tostring(phase));
+						return oWindow;
+					end
 				</script>
 			</windowlist>
 			<scrollbar_moons />
@@ -64,21 +64,21 @@
 			<anchor_column name="columnanchor" />
 			<simplestring name="moonname">
 				<anchored>
-					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 					<left parent="columnanchor" anchor="right" relation="relative" offset="10" />
 					<right />
 				</anchored>
 			</simplestring>
 			<simplestring name="name">
 				<anchored>
-					<top parent="moonname" anchor="bottom" relation="relative" offset="0" />
+					<top parent="moonname" anchor="bottom" relation="relative" offset="-5" />
 					<left parent="moonname" anchor="left" relation="relative" offset="0" />
 					<right />
 				</anchored>
 			</simplestring>
 			<genericcontrol name="phaseicon">
 				<anchored width="24" height="24">
-					<top parent="columnanchor" anchor="bottom" relation="absolute" offset="5" />
+					<top parent="columnanchor" anchor="bottom" relation="absolute" offset="8" />
 					<left parent="columnanchor" anchor="right" relation="absolute" offset="115" />
 				</anchored>
 			</genericcontrol>

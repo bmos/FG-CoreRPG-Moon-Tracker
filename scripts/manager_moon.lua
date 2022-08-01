@@ -5,19 +5,47 @@ local aMoonPhases = { -- String names for each moon phase
 	"New Moon", "Evening Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Morning Crescent"
 };
 
----
---- This function has been modified to include a launch message and perform some initialization that the CoreRPG
---- implementation of this file does not perform.
----
-function onInit()
-	-- send launch message
-	local msg = {sender = "", font = "emotefont"};
-	msg.text = "DMFirmy's Moon Tracker loaded.";
-	ChatManager.registerLaunchMessage(msg);
+local outputDate_old
+local function outputDate_new()
+	outputDate_old()
 
+	local aMoons = getMoons();
+	if aMoons then
+		local nEpoch = DB.getValue("moons.epochday", 0);
+		
+		local nMonth = CalendarManager.getCurrentMonth();
+		local nDay = CalendarManager.getCurrentDay();
+		local days;
+		for i = 1, nMonth do
+			if i == nMonth then
+				days = nDay;
+			else
+				days = CalendarManager.getDaysInMonth(i);
+			end
+
+			nEpoch = nEpoch + days;
+		end
+
+		for _,moon in ipairs(aMoons) do
+			local msg = {sender = "", font = "chatfont", icon = "portrait_gm_token", mode = "story"};
+			local sMoonName = DB.getValue(moon, "name", "");
+			local nPhase = calculatePhase(moon, nEpoch);
+			local sPhaseName = getPhaseName(nPhase);
+			msg.text = sMoonName .. "'s phase is " .. sPhaseName;
+			msg.icon = "moonphase" .. tostring(nPhase);
+			Comm.deliverChatMessage(msg);
+		end
+	end
+
+end
+
+function onInit()
 	if Session.IsHost then
 		initializeDatabase();
 	end
+
+	outputDate_old = CalendarManager.outputDate;
+	CalendarManager.outputDate = outputDate_new;
 end
 
 ---
@@ -38,7 +66,6 @@ function initializeDatabase()
 	DB.createNode("moons.epochday", "number");
 	DB.createNode("moons.epochyear", "number");
 	DB.createNode("moons.moonlist");
-
 end
 
 ---
@@ -52,7 +79,7 @@ function calculateEpochDay()
 
 	local epochyear = DB.getValue("moons.epochyear", 0);
 	local epoch = DB.getValue("moons.epochday", 0);
-	local aMoons = getMoons();
+	-- local aMoons = getMoons();
 
 	if epochyear ~= nYear - 1 then
 		epoch = getEpochDay(nYear, nMonths);
@@ -74,7 +101,7 @@ end
 function getMoons()	
 	local tMoons = DB.getChildren("moons.moonlist");
 	local aMoons = {};
-			
+
 	for k,v in pairs(tMoons) do
 		table.insert(aMoons, v);
 	end
