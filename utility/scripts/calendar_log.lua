@@ -6,17 +6,18 @@
 local aEvents = {};
 local nSelMonth = 0;
 local nSelDay = 0;
-local bEnableBuild = true;
 
 ---
 --- This function has been modified to add some new event handlers.
 ---
 function onInit()
 	DB.addHandler("calendar.log", "onChildUpdate", onEventsChanged);
-	DB.addHandler("moons.moonlist","onChildAdded", onMoonCountUpdated);
-	DB.addHandler("moons.moonlist","onChildDeleted", onMoonCountUpdated);
 	buildEvents();
 	
+	DB.addHandler("moons.moonlist","onChildAdded", onMoonCountUpdated);
+	DB.addHandler("moons.moonlist","onChildDeleted", onMoonCountUpdated);
+	
+	CalendarManager.registerChangeCallback(onCalendarChangedMoonTracker);
 	nSelMonth = currentmonth.getValue();
 	nSelDay = currentday.getValue();
 
@@ -50,6 +51,7 @@ function buildEvents()
 	end
 end
 
+local bEnableBuild = true;
 function onEventsChanged(bListChanged)
 	if bListChanged then
 		if bEnableBuild then
@@ -59,16 +61,13 @@ function onEventsChanged(bListChanged)
 	end
 end
 
----
---- This function has been modified to add a call to the populateMoonPhaseDisplay() function.
----
 function setSelectedDate(nMonth, nDay)
 	nSelMonth = nMonth;
 	nSelDay = nDay;
 
 	updateDisplay();
 	populateMoonPhaseDisplay(nMonth, nDay);
-	
+
 	list.scrollToCampaignDate();
 end
 
@@ -127,16 +126,13 @@ end
 
 function onDateChanged()
 	updateDisplay();
+	local nMonth = currentmonth.getValue();
+	local nDay = currentday.getValue();
+	populateMoonPhaseDisplay(nMonth, nDay);
 	list.scrollToCampaignDate();
 end
 
----
---- This function has been modified to add calls to the functions
---- MoonManager.calculateEpochDay() and setMoonFrame(),
----
 function onYearChanged()
-	MoonManager.calculateEpochDay();
-	setMoonFrame();
 	list.rebuildCalendarWindows();
 	onDateChanged();
 end
@@ -146,10 +142,13 @@ end
 --- MoonManager.calculateEpochDay() and setMoonFrame(),
 ---
 function onCalendarChanged()
-	MoonManager.calculateEpochDay();
-	setMoonFrame();
 	list.rebuildCalendarWindows();
 	setSelectedDate(currentmonth.getValue(), currentday.getValue());
+	MoonManager.calculateEpochDay();
+	setMoonFrame();
+	local nMonth = currentmonth.getValue();
+	local nDay = currentday.getValue();
+	populateMoonPhaseDisplay(nMonth, nDay);
 end
 
 function updateDisplay()
@@ -158,7 +157,7 @@ function updateDisplay()
 	local nCampaignMonth = currentmonth.getValue();
 	local nCampaignDay = currentday.getValue();
 	
-	local sDate = CalendarManager.getShortDateString(sCampaignEpoch, nCampaignYear, nCampaignMonth, nCampaignDay);
+	local sDate = CalendarManager.getDateString(sCampaignEpoch, nCampaignYear, nCampaignMonth, nCampaignDay, true, true);
 	viewdate.setValue(sDate);
 
 	if aEvents[nCampaignYear] and 
@@ -260,7 +259,6 @@ function setMoonFrame()
 		self.moons.setVisible(false);
 	end
 end
-
 
 ---
 --- This function gets called whenever a moon is added or deleted to rebuild the calendar window.
