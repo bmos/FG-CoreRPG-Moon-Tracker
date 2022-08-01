@@ -31,7 +31,8 @@ end
 --- This function sets up the required database nodes for storing Moon data
 ---
 function initializeDatabase()
-	DB.createNode("moons");
+	local nNode = DB.createNode("moons");
+	DB.setPublic(nNode, true);
 	DB.createNode("moons.epochday", "number");
 	DB.createNode("moons.epochyear", "number");
 	DB.createNode("moons.moonlist");
