@@ -15,7 +15,7 @@ function onInit()
 	msg.text = "DMFirmy's Moon Tracker loaded.";
 	ChatManager.registerLaunchMessage(msg);
 
-	if User.isHost() then
+	if Session.IsHost then
 		initializeDatabase();
 	end
 end

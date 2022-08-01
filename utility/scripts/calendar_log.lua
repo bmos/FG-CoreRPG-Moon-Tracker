@@ -81,7 +81,7 @@ function addLogEntry(nMonth, nDay)
 	local nodeEvent;
 	if aEvents[nYear] and aEvents[nYear][nMonth] and aEvents[nYear][nMonth][nDay] then
 		nodeEvent = aEvents[nYear][nMonth][nDay];
-	elseif User.isHost() then
+	elseif Session.IsHost then
 		local nodeLog = DB.createNode("calendar.log");
 		bEnableBuild = false;
 		nodeEvent = nodeLog.createChild();
@@ -107,7 +107,7 @@ function removeLogEntry(nMonth, nDay)
 		local nodeEvent = aEvents[nYear][nMonth][nDay];
 		
 		local bDelete = false;
-		if User.isHost() then
+		if Session.IsHost then
 			bDelete = true;
 		end
 		
@@ -118,7 +118,7 @@ function removeLogEntry(nMonth, nDay)
 end
 
 function onSetButtonPressed()
-	if User.isHost() then
+	if Session.IsHost then
 		CalendarManager.setCurrentDay(nSelDay);
 		CalendarManager.setCurrentMonth(nSelMonth);
 	end

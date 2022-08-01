@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <root>
 	<windowclass name="calendar_main" merge="merge">
+		<script file="utility/scripts/calendar_log.lua" />
 		<sheetdata>
 			<!-- This button will open up the Moon Configuration window -->
 			<buttoncontrol name="button_moon">
