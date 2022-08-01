@@ -5,6 +5,8 @@
 	<string name="moontracker_configuration_period_header">Period</string>
 	<string name="moontracker_configuration_name_header">Moon Name</string>
 	<string name="moontracker_configuration_shift_header">Shift</string>
+	<string name="moontracker_configuration_duration_header">Duration</string>
 	<string name="moontracker_configuration_period_tooltip">The number of days between one new moon and the next.</string>
 	<string name="moontracker_configuration_shift_tooltip">The number of phases to shift the moon's cycle.</string>
+	<string name="moontracker_configuration_duration_tooltip">The number of days of a full or new moon.</string>
 </root>

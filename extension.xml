@@ -3,7 +3,7 @@
 	<announcement text="An extension for tracking the phases of the moons for your campaign world.\nMaintained by Andraax - originally written by DMFirmy." font="emotefont" icon="moonphase3" />
 	<properties>
 	  <name>Moon Tracker (Modified)</name>
-	  <version>2.00</version>
+	  <version>2.01</version>
 	  <author>Andraax</author>
 	  <description>An extension for tracking the phases of the moons for your campaign world.</description>
 	  <ruleset>Any</ruleset>

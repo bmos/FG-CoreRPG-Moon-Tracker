@@ -2,7 +2,7 @@
  --- This array holds the string names for each moon phase.
  ---
 local aMoonPhases = { -- String names for each moon phase
-	"New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"
+	"New Moon", "Evening Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Morning Crescent"
 };
 
 ---
@@ -29,6 +29,8 @@ end
 
 ---
 --- This function sets up the required database nodes for storing Moon data
+---
+--- corrected by @mattekure to make moons public to players
 ---
 function initializeDatabase()
 	local nNode = DB.createNode("moons");
@@ -101,11 +103,44 @@ end
 --- oMoon [object]: This is the database node for the moon who's phase is being calculated.
 --- nEpoch [number]: This is the day (calculated from day 0) that the phase is being calculated for.
 ---
+--- corrected by @Arnagus to apply full and new moon only on specific (or multiple) days and not equally to waning or waxing moon phases
+---
 function calculatePhase(oMoon, nEpoch)
 	local cycle = oMoon.getChild("period").getValue();
 	local x = ((nEpoch - oMoon.getChild("shift").getValue()) / cycle);
+	local o = (oMoon.getChild("duration").getValue() -1) / 4;
 	local f = x - math.floor(x);
-	return math.floor(f*8) + 1;
+	local s = 1/cycle;
+	--- calculations with normalized periods resulting in a single (or multiple with duration>1) day new/full moon and single day quarter moon
+	if f < (0.00 + s + (o * s)) then
+		--- A new moon
+		return 1;
+	elseif f < (0.25 - s) then
+		--- An evening crescent
+		return 2;
+	elseif f < (0.25 + s) then
+		--- A first quarter
+		return 3;
+	elseif f < (0.50 - s - (o * s)) then
+		--- A waxing gibbous
+		return 4;
+	elseif f < (0.50 + s + (o * s)) then
+		--- A full moon
+		return 5;
+	elseif f < (0.75 - s) then
+		--- A wanning gibbous
+		return 6;
+	elseif f < (0.75 + s) then
+		--- A last quarter
+		return 7;
+	elseif f < (1.00 - s - (o * s)) then
+		--- A morning cresent
+		return 8;
+	else
+		--- A new moon
+		return 1;
+	end
+	-- return math.floor(f*8) + 1;
 end
 
 ---
