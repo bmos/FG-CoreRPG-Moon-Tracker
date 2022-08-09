@@ -2,7 +2,7 @@
 -- Please see the LICENSE.md file included with this distribution for attribution and copyright information.
 --
 if ColorManager and not ColorManager.COLOR_CALENDAR_HOLIDAY then
-	ColorManager.COLOR_CALENDAR_HOLIDAY = 'F2AB76'; -- Replaceable Color: Calendar Background
+	ColorManager.COLOR_CALENDAR_HOLIDAY = '5A1E33'; -- Replaceable Color: Calendar Background
 end
 
 local aEvents = {};
