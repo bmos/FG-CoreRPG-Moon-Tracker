@@ -80,7 +80,7 @@ function addLogEntry(nMonth, nDay)
 	elseif Session.IsHost then
 		local nodeLog = DB.createNode('calendar.log')
 		bEnableBuild = false
-		nodeEvent = nodeLog.createChild()
+		nodeEvent = DB.createChild(nodeLog)
 
 		DB.setValue(nodeEvent, 'epoch', 'string', DB.getValue('calendar.current.epoch', ''))
 		DB.setValue(nodeEvent, 'year', 'number', nYear)
@@ -103,7 +103,7 @@ function removeLogEntry(nMonth, nDay)
 		local bDelete = false
 		if Session.IsHost then bDelete = true end
 
-		if bDelete then nodeEvent.delete() end
+		if bDelete then DB.deleteNode(nodeEvent) end
 	end
 end
 
