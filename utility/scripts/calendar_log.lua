@@ -38,7 +38,7 @@ end
 function buildEvents()
 	aEvents = {}
 
-	for _, v in pairs(DB.getChildren('calendar.log')) do
+	for _, v in ipairs(DB.getChildList('calendar.log')) do
 		local nYear = DB.getValue(v, 'year', 0)
 		local nMonth = DB.getValue(v, 'month', 0)
 		local nDay = DB.getValue(v, 'day', 0)
