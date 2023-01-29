@@ -105,7 +105,7 @@ function getMoons()
 	for _, v in pairs(tMoons) do
 		table.insert(aMoons, v)
 	end
-	table.sort(aMoons, function(a, b) return DB.getChild(a, 'period').getValue() < DB.getChild(b, 'period').getValue() end)
+	table.sort(aMoons, function(a, b) return DB.getValue(a, 'period') < DB.getValue(b, 'period') end)
 	return aMoons
 end
 
@@ -113,11 +113,11 @@ end
 --- This function is used to sort two moon database nodes. It sorts first by period, then by name.
 ---
 function sortMoons(a, b)
-	local aPeriod = DB.getChild(a, 'period').getValue()
-	local bPeriod = DB.getChild(b, 'period').getValue()
+	local aPeriod = DB.getValue(a, 'period')
+	local bPeriod = DB.getValue(b, 'period')
 	if aPeriod == bPeriod then
-		local aName = DB.getChild(a, 'name').getValue()
-		local bName = DB.getChild(b, 'name').getValue()
+		local aName = DB.getValue(a, 'name')
+		local bName = DB.getValue(b, 'name')
 
 		return aName > bName
 	else
@@ -133,9 +133,9 @@ end
 --- corrected by @Arnagus to apply full and new moon only on specific (or multiple) days and not equally to waning or waxing moon phases
 ---
 function calculatePhase(oMoon, nEpoch)
-	local cycle = DB.getChild(oMoon, 'period').getValue()
-	local x = ((nEpoch - DB.getChild(oMoon, 'shift').getValue()) / cycle)
-	local o = (DB.getChild(oMoon, 'duration').getValue() - 1) / 4
+	local cycle = DB.getValue(oMoon, 'period')
+	local x = ((nEpoch - DB.getValue(oMoon, 'shift')) / cycle)
+	local o = (DB.getValue(oMoon, 'duration') - 1) / 4
 	local f = x - math.floor(x)
 	local s = 1 / cycle
 	--- calculations with normalized periods resulting in a single (or multiple with duration>1) day new/full moon and single day quarter moon
