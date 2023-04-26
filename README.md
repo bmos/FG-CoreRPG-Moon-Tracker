@@ -20,4 +20,4 @@ This extension is designed to work out-of-the-box for all campaigns that use one
 * Shift: move the entire lunar cycle forward/backward to align with other events like holidays
 
 # Compatibility
-This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) v4.3.6 (2023-03-16).
+This extension has been tested with [FantasyGrounds Unity](https://www.fantasygrounds.com/home/FantasyGroundsUnity.php) v4.3.8 (2023-04-25).
