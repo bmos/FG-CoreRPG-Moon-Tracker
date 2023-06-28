@@ -9,24 +9,7 @@
 				<icon normal="button_moon" pressed="button_moon_down" />
 				<tooltip textres="moontracker_tooltip_moonbutton" />
 				<gmvisibleonly />
-				<script>
-					<script>
-						function onButtonPress()
-							local oNode = DB.findNode("moons.moonlist");
-							if oNode then
-								local oWindow = Interface.openWindow("moontracker_configuration",oNode.getNodeName());
-								oWindow.registerCloseCallback(onMoonTrackerConfigurationClosed);
-								if oWindow and oWindow.name then
-									oWindow.name.setFocus();
-								end
-							end
-						end
-
-						function onMoonTrackerConfigurationClosed()
-							window.populateMoonPhaseDisplay();
-						end
-					</script>
-				</script>
+				<script file="utility/scripts/button_moon.lua" />
 			</buttoncontrol>
 
 			<!-- This list shows the phases for each moon, if they are defined.-->
@@ -36,17 +19,7 @@
 				<class>moonphase</class>
 				<columns width="155" fillwidth="true" />
 				<skipempty />
-				<script>
-					function addEntry(oMoon, nEpoch)
-						local oWindow = createWindow();
-						local phase = MoonManager.calculatePhase(oMoon, nEpoch);
-						local name = MoonManager.getPhaseName(phase);
-						oWindow["name"].setValue(name);
-						oWindow["moonname"].setValue(DB.getChild(oMoon, "name").getValue());
-						oWindow["phaseicon"].setIcon("moonphase" .. tostring(phase));
-						return oWindow;
-					end
-				</script>
+				<script file="utility/scripts/moons_list.lua" />
 			</windowlist>
 			<scrollbar_moons />
 
