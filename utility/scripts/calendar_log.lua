@@ -70,7 +70,7 @@ function onDateChanged()
 	self.updateDisplay()
 	list.scrollToCampaignDate()
 
-	self.defaultPopulateMoonPhaseDisplay()
+	self.populateMoonPhaseDisplay()
 end
 function onYearChanged()
 	list.rebuildCalendarWindows()
@@ -82,7 +82,7 @@ function onCalendarChanged()
 
 	MoonManager.calculateEpochDay()
 	self.setMoonFrame()
-	self.defaultPopulateMoonPhaseDisplay()
+	self.populateMoonPhaseDisplay()
 end
 
 function updateDisplay()
@@ -217,13 +217,6 @@ function populateMoonPhaseDisplay(nMonth, nDay)
 			end
 		end
 	end
-end
-
--- luacheck: globals defaultPopulateMoonPhaseDisplay
-function defaultPopulateMoonPhaseDisplay()
-	local nMonth = DB.getValue('calendar.current.month', 0)
-	local nDay = DB.getValue('calendar.current.day', 0)
-	populateMoonPhaseDisplay(nMonth, nDay)
 end
 
 ---
