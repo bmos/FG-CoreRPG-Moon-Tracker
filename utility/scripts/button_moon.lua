@@ -5,16 +5,16 @@
 -- luacheck: globals onButtonPress
 
 local function onMoonTrackerConfigurationClosed()
-	window.parentcontrol.window.populateMoonPhaseDisplay();
+	window.parentcontrol.window.populateMoonPhaseDisplay()
 end
 
 function onButtonPress()
-	local oNode = DB.findNode("moons.moonlist");
+	local oNode = DB.findNode("moons.moonlist")
 	if oNode then
-		local oWindow = Interface.openWindow("moontracker_configuration",oNode.getNodeName());
-		oWindow.registerCloseCallback(onMoonTrackerConfigurationClosed);
+		local oWindow = Interface.openWindow("moontracker_configuration", oNode.getNodeName())
+		oWindow.registerCloseCallback(onMoonTrackerConfigurationClosed)
 		if oWindow and oWindow.name then
-			oWindow.name.setFocus();
+			oWindow.name.setFocus()
 		end
 	end
 end

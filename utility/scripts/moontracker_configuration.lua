@@ -18,7 +18,9 @@ end
 ---
 --- fCallback [function]: The function to be called when the window is closed.
 ---
-function registerCloseCallback(fCallback) table.insert(callbacks, fCallback) end
+function registerCloseCallback(fCallback)
+	table.insert(callbacks, fCallback)
+end
 
 ---
 --- This allows you to remove a registered function from the close callback regsitration.
@@ -27,6 +29,8 @@ function registerCloseCallback(fCallback) table.insert(callbacks, fCallback) end
 ---
 function unregisterCloseCallback(fCallback)
 	for k, v in pairs(callbacks) do
-		if v == fCallback then callbacks[k] = nil end
+		if v == fCallback then
+			callbacks[k] = nil
+		end
 	end
 end

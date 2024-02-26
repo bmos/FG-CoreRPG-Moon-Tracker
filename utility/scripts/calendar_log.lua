@@ -4,7 +4,7 @@
 
 -- luacheck: globals ColorManager.COLOR_CALENDAR_HOLIDAY ColorManager.COLOR_PRIMARY_FOREGROUND
 if ColorManager and not ColorManager.COLOR_CALENDAR_HOLIDAY then
-	ColorManager.COLOR_CALENDAR_HOLIDAY = '5A1E33' -- Replaceable Color: Calendar Background
+	ColorManager.COLOR_CALENDAR_HOLIDAY = "5A1E33" -- Replaceable Color: Calendar Background
 end
 
 -- luacheck: globals onEventsChanged buildEvents onDateChanged onYearChanged onCalendarChanged updateDisplay
@@ -16,31 +16,33 @@ local nSelMonth = 0
 local nSelDay = 0
 
 function onInit()
-	if super and super.onInit then super.onInit() end
+	if super and super.onInit then
+		super.onInit()
+	end
 
-	nSelMonth = DB.getValue('calendar.current.month', 0)
-	nSelDay = DB.getValue('calendar.current.day', 0)
+	nSelMonth = DB.getValue("calendar.current.month", 0)
+	nSelDay = DB.getValue("calendar.current.day", 0)
 
-	DB.addHandler('calendar.log', 'onChildUpdate', self.onEventsChanged)
-	DB.addHandler('calendar.current.day', 'onUpdate', self.onDateChanged)
-	DB.addHandler('calendar.current.month', 'onUpdate', self.onDateChanged)
-	DB.addHandler('calendar.current.year', 'onUpdate', self.onYearChanged)
+	DB.addHandler("calendar.log", "onChildUpdate", self.onEventsChanged)
+	DB.addHandler("calendar.current.day", "onUpdate", self.onDateChanged)
+	DB.addHandler("calendar.current.month", "onUpdate", self.onDateChanged)
+	DB.addHandler("calendar.current.year", "onUpdate", self.onYearChanged)
 
-	DB.addHandler('moons.moonlist', 'onChildAdded', self.onMoonCountUpdated)
-	DB.addHandler('moons.moonlist', 'onChildDeleted', self.onMoonCountUpdated)
+	DB.addHandler("moons.moonlist", "onChildAdded", self.onMoonCountUpdated)
+	DB.addHandler("moons.moonlist", "onChildDeleted", self.onMoonCountUpdated)
 	--CalendarManager.registerChangeCallback(onCalendarChangedMoonTracker)
 
 	self.buildEvents()
 	self.onDateChanged()
 end
 function onClose()
-	DB.removeHandler('calendar.log', 'onChildUpdate', self.onEventsChanged)
-	DB.removeHandler('calendar.current.day', 'onUpdate', self.onDateChanged)
-	DB.removeHandler('calendar.current.month', 'onUpdate', self.onDateChanged)
-	DB.removeHandler('calendar.current.year', 'onUpdate', self.onYearChanged)
+	DB.removeHandler("calendar.log", "onChildUpdate", self.onEventsChanged)
+	DB.removeHandler("calendar.current.day", "onUpdate", self.onDateChanged)
+	DB.removeHandler("calendar.current.month", "onUpdate", self.onDateChanged)
+	DB.removeHandler("calendar.current.year", "onUpdate", self.onYearChanged)
 
-	DB.removeHandler('moons.moonlist', 'onChildAdded', self.onMoonCountUpdated)
-	DB.removeHandler('moons.moonlist', 'onChildDeleted', self.onMoonCountUpdated)
+	DB.removeHandler("moons.moonlist", "onChildAdded", self.onMoonCountUpdated)
+	DB.removeHandler("moons.moonlist", "onChildDeleted", self.onMoonCountUpdated)
 end
 
 local bEnableBuild = true
@@ -55,13 +57,17 @@ end
 function buildEvents()
 	aEvents = {}
 
-	for _, v in ipairs(DB.getChildList('calendar.log')) do
-		local nYear = DB.getValue(v, 'year', 0)
-		local nMonth = DB.getValue(v, 'month', 0)
-		local nDay = DB.getValue(v, 'day', 0)
+	for _, v in ipairs(DB.getChildList("calendar.log")) do
+		local nYear = DB.getValue(v, "year", 0)
+		local nMonth = DB.getValue(v, "month", 0)
+		local nDay = DB.getValue(v, "day", 0)
 
-		if not aEvents[nYear] then aEvents[nYear] = {} end
-		if not aEvents[nYear][nMonth] then aEvents[nYear][nMonth] = {} end
+		if not aEvents[nYear] then
+			aEvents[nYear] = {}
+		end
+		if not aEvents[nYear][nMonth] then
+			aEvents[nYear][nMonth] = {}
+		end
 		aEvents[nYear][nMonth][nDay] = v
 	end
 end
@@ -78,7 +84,7 @@ function onYearChanged()
 end
 function onCalendarChanged()
 	list.rebuildCalendarWindows()
-	self.setSelectedDate(DB.getValue('calendar.current.month', 0), DB.getValue('calendar.current.day', 0))
+	self.setSelectedDate(DB.getValue("calendar.current.month", 0), DB.getValue("calendar.current.day", 0))
 
 	MoonManager.calculateEpochDay()
 	self.setMoonFrame()
@@ -86,10 +92,10 @@ function onCalendarChanged()
 end
 
 function updateDisplay()
-	local sCampaignEpoch = DB.getValue('calendar.current.epoch', 0)
-	local nCampaignYear = DB.getValue('calendar.current.year', 0)
-	local nCampaignMonth = DB.getValue('calendar.current.month', 0)
-	local nCampaignDay = DB.getValue('calendar.current.day', 0)
+	local sCampaignEpoch = DB.getValue("calendar.current.epoch", 0)
+	local nCampaignYear = DB.getValue("calendar.current.year", 0)
+	local nCampaignMonth = DB.getValue("calendar.current.month", 0)
+	local nCampaignDay = DB.getValue("calendar.current.day", 0)
 
 	local sDate = CalendarManager.getDateString(sCampaignEpoch, nCampaignYear, nCampaignMonth, nCampaignDay, true, true)
 	sub_date.subwindow.viewdate.setValue(sDate)
@@ -107,8 +113,12 @@ function updateDisplay()
 
 		local bCampaignMonth = false
 		local bLogMonth = false
-		if nMonth == nCampaignMonth then bCampaignMonth = true end
-		if nMonth == nSelMonth then bLogMonth = true end
+		if nMonth == nCampaignMonth then
+			bCampaignMonth = true
+		end
+		if nMonth == nSelMonth then
+			bLogMonth = true
+		end
 
 		if bCampaignMonth then
 			v.label_period.setColor(ColorManager.COLOR_CALENDAR_HOLIDAY)
@@ -120,7 +130,11 @@ function updateDisplay()
 			local nDay = y.day.getValue()
 			if nDay > 0 then
 				local nodeEvent = nil
-				if aEvents[nCampaignYear] and aEvents[nCampaignYear][nMonth] and aEvents[nCampaignYear][nMonth][nDay] then
+				if
+					aEvents[nCampaignYear]
+					and aEvents[nCampaignYear][nMonth]
+					and aEvents[nCampaignYear][nMonth][nDay]
+				then
 					nodeEvent = aEvents[nCampaignYear][nMonth][nDay]
 				end
 
@@ -150,7 +164,9 @@ function onSetButtonPressed()
 	end
 end
 
-function addLogEntryToSelected() self.addLogEntry(nSelMonth, nSelDay) end
+function addLogEntryToSelected()
+	self.addLogEntry(nSelMonth, nSelDay)
+end
 function addLogEntry(nMonth, nDay)
 	local nYear = CalendarManager.getCurrentYear()
 
@@ -158,20 +174,22 @@ function addLogEntry(nMonth, nDay)
 	if aEvents[nYear] and aEvents[nYear][nMonth] and aEvents[nYear][nMonth][nDay] then
 		nodeEvent = aEvents[nYear][nMonth][nDay]
 	elseif Session.IsHost then
-		local nodeLog = DB.createNode('calendar.log')
+		local nodeLog = DB.createNode("calendar.log")
 		bEnableBuild = false
 		nodeEvent = DB.createChild(nodeLog)
 
-		DB.setValue(nodeEvent, 'epoch', 'string', DB.getValue('calendar.current.epoch', ''))
-		DB.setValue(nodeEvent, 'year', 'number', nYear)
-		DB.setValue(nodeEvent, 'month', 'number', nMonth)
-		DB.setValue(nodeEvent, 'day', 'number', nDay)
+		DB.setValue(nodeEvent, "epoch", "string", DB.getValue("calendar.current.epoch", ""))
+		DB.setValue(nodeEvent, "year", "number", nYear)
+		DB.setValue(nodeEvent, "month", "number", nMonth)
+		DB.setValue(nodeEvent, "day", "number", nDay)
 		bEnableBuild = true
 
 		self.onEventsChanged()
 	end
 
-	if nodeEvent then Interface.openWindow('advlogentry', nodeEvent) end
+	if nodeEvent then
+		Interface.openWindow("advlogentry", nodeEvent)
+	end
 end
 function removeLogEntry(nMonth, nDay)
 	local nYear = CalendarManager.getCurrentYear()
@@ -180,9 +198,13 @@ function removeLogEntry(nMonth, nDay)
 		local nodeEvent = aEvents[nYear][nMonth][nDay]
 
 		local bDelete = false
-		if Session.IsHost then bDelete = true end
+		if Session.IsHost then
+			bDelete = true
+		end
 
-		if bDelete then DB.deleteNode(nodeEvent) end
+		if bDelete then
+			DB.deleteNode(nodeEvent)
+		end
 	end
 end
 
@@ -195,9 +217,11 @@ function populateMoonPhaseDisplay(nMonth, nDay)
 	nMonth = nMonth or nSelMonth
 	nDay = nDay or nSelDay
 
-	if self.sub_date.subwindow.moons and self.sub_date.subwindow.moons.closeAll then self.sub_date.subwindow.moons.closeAll() end
+	if self.sub_date.subwindow.moons and self.sub_date.subwindow.moons.closeAll then
+		self.sub_date.subwindow.moons.closeAll()
+	end
 	if nSelMonth and nSelDay then
-		local epoch = DB.getValue('moons.epochday', 0)
+		local epoch = DB.getValue("moons.epochday", 0)
 		local moons = MoonManager.getMoons()
 
 		local days
@@ -227,7 +251,7 @@ end
 -- luacheck: globals setMoonFrame
 function setMoonFrame()
 	local hasMoons = false
-	local moons = DB.getChildren('moons.moonlist')
+	local moons = DB.getChildren("moons.moonlist")
 	for _, v in pairs(moons) do -- luacheck: ignore
 		hasMoons = true
 		break
@@ -245,4 +269,6 @@ end
 --- This function gets called whenever a moon is added or deleted to rebuild the calendar window.
 ---
 -- luacheck: globals onMoonCountUpdated
-function onMoonCountUpdated() setMoonFrame() end
+function onMoonCountUpdated()
+	setMoonFrame()
+end

@@ -22,7 +22,9 @@ function addEntry(bFocus)
 	local bEditMode = (window.moodlist_iedit.getValue() == 1)
 	local oWindow = createWindow()
 	oWindow.idelete.setVisible(bEditMode)
-	if bFocus then oWindow['name'].setFocus() end
+	if bFocus then
+		oWindow["name"].setFocus()
+	end
 	return oWindow
 end
 
