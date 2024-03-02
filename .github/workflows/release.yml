@@ -75,8 +75,8 @@ jobs:
           FG_USER_NAME: ${{ vars.FORGE_USER_NAME }}
           FG_USER_PASS: ${{ secrets.FORGE_USER_PASS }}
           FG_UL_FILE: ${{ github.event.repository.name }}${{ env.EXTENSION }}
-          FG_README_UPDATE: "TRUE"
-          FG_UPLOAD_BUILD: "TRUE"
+          FG_README_UPDATE: "FALSE"
+          FG_UPLOAD_BUILD: "FALSE"
           FG_GRAPH_SALES: "TRUE"
         run: |
           python -m src.main
@@ -91,13 +91,14 @@ jobs:
           FG_USER_PASS: ${{ secrets.FORGE_USER_PASS }}
           FG_UL_FILE: ${{ github.event.repository.name }}${{ env.EXTENSION }}
           FG_README_UPDATE: "FALSE"
-          FG_UPLOAD_BUILD: "TRUE"
-          FG_GRAPH_SALES: "FALSE"
+          FG_UPLOAD_BUILD: "FALSE"
+          FG_GRAPH_SALES: "TRUE"
         run: |
           python -m src.main
 
       - name: Add cumulative users graph to release
         uses: ncipollo/release-action@v1
         with:
+          body: "![Cumulative Users Graph](https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/cumulative_users.png)"
           artifacts: cumulative_users.png
           allowUpdates: true
